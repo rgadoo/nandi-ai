@@ -1,0 +1,416 @@
+-- Nandi AI Test Data Seed File
+-- Generated: 2025-04-18
+-- This file inserts comprehensive test data for all major tables in the Nandi AI schema.
+
+SET search_path TO nandi, public;
+
+-- Helper function for generating timestamps within the last 30 days
+CREATE OR REPLACE FUNCTION random_recent_timestamp() RETURNS TIMESTAMP AS $$
+BEGIN
+    RETURN NOW() - (random() * INTERVAL '30 days');
+END;
+$$ LANGUAGE plpgsql;
+
+-- 1. USERS
+INSERT INTO users (id, email, name, created_at, updated_at) VALUES
+  ('11111111-1111-1111-1111-111111111111', 'alice@example.com', 'Alice Johnson', NOW() - interval '30 days', NOW() - interval '30 days'),
+  ('22222222-2222-2222-2222-222222222222', 'bob@example.com', 'Bob Smith', NOW() - interval '28 days', NOW() - interval '28 days'),
+  ('33333333-3333-3333-3333-333333333333', 'charlie@example.com', 'Charlie Davis', NOW() - interval '25 days', NOW() - interval '25 days'),
+  ('44444444-4444-4444-4444-444444444444', 'diana@example.com', 'Diana Poet', NOW() - interval '20 days', NOW() - interval '20 days'),
+  ('55555555-5555-5555-5555-555555555555', 'ethan@example.com', 'Ethan Writer', NOW() - interval '18 days', NOW() - interval '18 days'),
+  ('66666666-6666-6666-6666-666666666666', 'fiona@example.com', 'Fiona Gamer', NOW() - interval '15 days', NOW() - interval '15 days'),
+  ('77777777-7777-7777-7777-777777777777', 'george@example.com', 'George Analyst', NOW() - interval '10 days', NOW() - interval '10 days'),
+  ('88888888-8888-8888-8888-888888888888', 'hannah@example.com', 'Hannah Mindful', NOW() - interval '5 days', NOW() - interval '5 days');
+
+-- 2. USER PREFERENCES
+INSERT INTO user_preferences (user_id, preferred_voice_style, preferred_tone, dark_mode_enabled, notifications_enabled, metadata, created_at, updated_at) VALUES
+  ('a1111111-1111-1111-1111-111111111111', 'calm', 'spiritual', TRUE, TRUE, '{"meditation_reminder": true, "daily_quote": true}', NOW() - interval '30 days', NOW() - interval '30 days'),
+  ('b2222222-2222-2222-2222-222222222222', 'direct', 'scientific', FALSE, TRUE, '{"focus_timer": 25, "break_timer": 5}', NOW() - interval '28 days', NOW() - interval '28 days'),
+  ('c3333333-3333-3333-3333-333333333333', 'analytical', 'philosophical', TRUE, FALSE, '{"journal_template": "gratitude"}', NOW() - interval '25 days', NOW() - interval '25 days'),
+  ('d4444444-4444-4444-4444-444444444444', 'poetic', 'spiritual', TRUE, TRUE, '{"poetry_style": "haiku", "metaphor_level": "high"}', NOW() - interval '20 days', NOW() - interval '20 days'),
+  ('e5555555-5555-5555-5555-555555555555', 'calm', 'philosophical', FALSE, TRUE, '{"writing_goal": 1000, "writing_streak": 7}', NOW() - interval '18 days', NOW() - interval '18 days'),
+  ('f6666666-6666-6666-6666-666666666666', 'direct', 'scientific', TRUE, FALSE, '{"game_difficulty": "medium", "sound_effects": true}', NOW() - interval '15 days', NOW() - interval '15 days'),
+  ('g7777777-7777-7777-7777-777777777777', 'analytical', 'scientific', FALSE, TRUE, '{"data_visualization": true, "insights_frequency": "daily"}', NOW() - interval '10 days', NOW() - interval '10 days'),
+  ('h8888888-8888-8888-8888-888888888888', 'calm', 'spiritual', TRUE, TRUE, '{"meditation_duration": 20, "ambient_sounds": "nature"}', NOW() - interval '5 days', NOW() - interval '5 days');
+
+-- 3. USER SESSIONS
+INSERT INTO user_sessions (id, user_id, started_at, ended_at, metadata, session_quality_score, total_focus_minutes, created_at, updated_at) VALUES
+  -- Alice's sessions
+  ('aaaa1111-1111-1111-1111-111111111111', 'a1111111-1111-1111-1111-111111111111', NOW() - interval '29 days', NOW() - interval '29 days' + interval '45 minutes', '{"device": "mobile", "location": "home"}', 8, 30, NOW() - interval '29 days', NOW() - interval '29 days'),
+  ('aaaa2222-2222-2222-2222-222222222222', 'a1111111-1111-1111-1111-111111111111', NOW() - interval '20 days', NOW() - interval '20 days' + interval '1 hour', '{"device": "desktop", "location": "office"}', 9, 45, NOW() - interval '20 days', NOW() - interval '20 days'),
+  ('aaaa3333-3333-3333-3333-333333333333', 'a1111111-1111-1111-1111-111111111111', NOW() - interval '10 days', NOW() - interval '10 days' + interval '30 minutes', '{"device": "tablet", "location": "park"}', 7, 25, NOW() - interval '10 days', NOW() - interval '10 days'),
+  
+  -- Bob's sessions
+  ('bbbb1111-1111-1111-1111-111111111111', 'b2222222-2222-2222-2222-222222222222', NOW() - interval '27 days', NOW() - interval '27 days' + interval '1 hour', '{"device": "desktop", "location": "lab"}', 9, 50, NOW() - interval '27 days', NOW() - interval '27 days'),
+  ('bbbb2222-2222-2222-2222-222222222222', 'b2222222-2222-2222-2222-222222222222', NOW() - interval '15 days', NOW() - interval '15 days' + interval '40 minutes', '{"device": "mobile", "location": "commute"}', 6, 35, NOW() - interval '15 days', NOW() - interval '15 days'),
+  
+  -- Charlie's sessions
+  ('cccc1111-1111-1111-1111-111111111111', 'c3333333-3333-3333-3333-333333333333', NOW() - interval '24 days', NOW() - interval '24 days' + interval '1 hour', '{"device": "desktop", "location": "library"}', 8, 45, NOW() - interval '24 days', NOW() - interval '24 days'),
+  ('cccc2222-2222-2222-2222-222222222222', 'c3333333-3333-3333-3333-333333333333', NOW() - interval '12 days', NOW() - interval '12 days' + interval '50 minutes', '{"device": "tablet", "location": "coffee shop"}', 7, 40, NOW() - interval '12 days', NOW() - interval '12 days'),
+  
+  -- Diana's sessions
+  ('dddd1111-1111-1111-1111-111111111111', 'd4444444-4444-4444-4444-444444444444', NOW() - interval '19 days', NOW() - interval '19 days' + interval '1 hour', '{"device": "desktop", "location": "study"}', 9, 50, NOW() - interval '19 days', NOW() - interval '19 days'),
+  ('dddd2222-2222-2222-2222-222222222222', 'd4444444-4444-4444-4444-444444444444', NOW() - interval '8 days', NOW() - interval '8 days' + interval '45 minutes', '{"device": "mobile", "location": "park"}', 8, 35, NOW() - interval '8 days', NOW() - interval '8 days'),
+  
+  -- Ethan's sessions
+  ('eeee1111-1111-1111-1111-111111111111', 'e5555555-5555-5555-5555-555555555555', NOW() - interval '17 days', NOW() - interval '17 days' + interval '1 hour', '{"device": "desktop", "location": "study"}', 9, 55, NOW() - interval '17 days', NOW() - interval '17 days'),
+  ('eeee2222-2222-2222-2222-222222222222', 'e5555555-5555-5555-5555-555555555555', NOW() - interval '9 days', NOW() - interval '9 days' + interval '40 minutes', '{"device": "tablet", "location": "cafe"}', 8, 30, NOW() - interval '9 days', NOW() - interval '9 days'),
+  
+  -- Fiona's sessions
+  ('ffff1111-1111-1111-1111-111111111111', 'f6666666-6666-6666-6666-666666666666', NOW() - interval '14 days', NOW() - interval '14 days' + interval '1 hour', '{"device": "desktop", "location": "game room"}', 9, 50, NOW() - interval '14 days', NOW() - interval '14 days'),
+  ('ffff2222-2222-2222-2222-222222222222', 'f6666666-6666-6666-6666-666666666666', NOW() - interval '2 days', NOW() - interval '2 days' + interval '55 minutes', '{"device": "mobile", "location": "commute"}', 7, 45, NOW() - interval '2 days', NOW() - interval '2 days'),
+  ('ffff3333-3333-3333-3333-333333333333', 'f6666666-6666-6666-6666-666666666666', NOW() - interval '2 days' + interval '1 hour', NOW() - interval '2 days' + interval '2 hours', '{"device": "desktop", "location": "game room"}', 9, 60, NOW() - interval '2 days', NOW() - interval '2 days'),
+  
+  -- George's sessions
+  ('gggg1111-1111-1111-1111-111111111111', 'g7777777-7777-7777-7777-777777777777', NOW() - interval '9 days', NOW() - interval '9 days' + interval '1 hour', '{"device": "desktop", "location": "office"}', 9, 55, NOW() - interval '9 days', NOW() - interval '9 days'),
+  ('gggg2222-2222-2222-2222-222222222222', 'g7777777-7777-7777-7777-777777777777', NOW() - interval '3 days', NOW() - interval '3 days' + interval '45 minutes', '{"device": "mobile", "location": "commute"}', 8, 35, NOW() - interval '3 days', NOW() - interval '3 days'),
+  
+  -- Hannah's sessions
+  ('hhhh1111-1111-1111-1111-111111111111', 'h8888888-8888-8888-8888-888888888888', NOW() - interval '4 days', NOW() - interval '4 days' + interval '1 hour', '{"device": "tablet", "location": "meditation room"}', 10, 60, NOW() - interval '4 days', NOW() - interval '4 days'),
+  ('hhhh2222-2222-2222-2222-222222222222', 'h8888888-8888-8888-8888-888888888888', NOW() - interval '1 day', NOW() - interval '1 day' + interval '45 minutes', '{"device": "mobile", "location": "garden"}', 9, 40, NOW() - interval '1 day', NOW() - interval '1 day');
+
+-- 4. ACTIVITY OCCURRENCES
+INSERT INTO activity_occurrences (id, user_id, session_id, activity_type, reference_id, started_at, completed_at, metadata, created_at, updated_at) VALUES
+  -- Alice's activities
+  ('act11111-1111-1111-1111-111111111111', 'a1111111-1111-1111-1111-111111111111', 'aaaa1111-1111-1111-1111-111111111111', 'ask_nandi', NULL, NOW() - interval '29 days', NOW() - interval '29 days' + interval '15 minutes', '{"topic": "meditation"}', NOW() - interval '29 days', NOW() - interval '29 days'),
+  ('act11112-2222-1111-1111-111111111111', 'a1111111-1111-1111-1111-111111111111', 'aaaa1111-1111-1111-1111-111111111111', 'reflection_journal', NULL, NOW() - interval '29 days' + interval '20 minutes', NOW() - interval '29 days' + interval '35 minutes', '{"word_count": 250}', NOW() - interval '29 days', NOW() - interval '29 days'),
+  ('act11113-3333-1111-1111-111111111111', 'a1111111-1111-1111-1111-111111111111', 'aaaa2222-2222-2222-2222-222222222222', 'quiz', NULL, NOW() - interval '20 days', NOW() - interval '20 days' + interval '15 minutes', '{"quiz_type": "mindfulness"}', NOW() - interval '20 days', NOW() - interval '20 days'),
+  ('act11114-4444-1111-1111-111111111111', 'a1111111-1111-1111-1111-111111111111', 'aaaa2222-2222-2222-2222-222222222222', 'game', NULL, NOW() - interval '20 days' + interval '20 minutes', NOW() - interval '20 days' + interval '40 minutes', '{"game_name": "Zen Tiles"}', NOW() - interval '20 days', NOW() - interval '20 days'),
+  ('act11115-5555-1111-1111-111111111111', 'a1111111-1111-1111-1111-111111111111', 'aaaa3333-3333-3333-3333-333333333333', 'ask_nandi', NULL, NOW() - interval '10 days', NOW() - interval '10 days' + interval '10 minutes', '{"topic": "stress management"}', NOW() - interval '10 days', NOW() - interval '10 days'),
+  ('act11116-6666-1111-1111-111111111111', 'a1111111-1111-1111-1111-111111111111', 'aaaa3333-3333-3333-3333-333333333333', 'reflection_journal', NULL, NOW() - interval '10 days' + interval '15 minutes', NOW() - interval '10 days' + interval '25 minutes', '{"word_count": 180}', NOW() - interval '10 days', NOW() - interval '10 days'),
+  
+  -- Bob's activities
+  ('act22221-1111-2222-2222-222222222222', '22222222-2222-2222-2222-222222222222', 'bbbb1111-1111-1111-1111-111111111111', 'ask_nandi', NULL, NOW() - interval '27 days', NOW() - interval '27 days' + interval '20 minutes', '{"topic": "productivity"}', NOW() - interval '27 days', NOW() - interval '27 days'),
+  ('act22222-2222-2222-2222-222222222222', '22222222-2222-2222-2222-222222222222', 'bbbb1111-1111-1111-1111-111111111111', 'quiz', NULL, NOW() - interval '27 days' + interval '25 minutes', NOW() - interval '27 days' + interval '45 minutes', '{"quiz_type": "focus"}', NOW() - interval '27 days', NOW() - interval '27 days'),
+  ('act22223-3333-2222-2222-222222222222', '22222222-2222-2222-2222-222222222222', 'bbbb2222-2222-2222-2222-222222222222', 'game', NULL, NOW() - interval '15 days', NOW() - interval '15 days' + interval '25 minutes', '{"game_name": "Focus Quest"}', NOW() - interval '15 days', NOW() - interval '15 days'),
+  ('act22224-4444-2222-2222-222222222222', '22222222-2222-2222-2222-222222222222', 'bbbb2222-2222-2222-2222-222222222222', 'reflection_journal', NULL, NOW() - interval '15 days' + interval '30 minutes', NOW() - interval '15 days' + interval '40 minutes', '{"word_count": 150}', NOW() - interval '15 days', NOW() - interval '15 days'),
+  
+  -- Charlie's activities
+  ('act33331-1111-3333-3333-333333333333', '33333333-3333-3333-3333-333333333333', 'cccc1111-1111-1111-1111-111111111111', 'ask_nandi', NULL, NOW() - interval '24 days', NOW() - interval '24 days' + interval '15 minutes', '{"topic": "philosophy"}', NOW() - interval '24 days', NOW() - interval '24 days'),
+  ('act33332-2222-3333-3333-333333333333', '33333333-3333-3333-3333-333333333333', 'cccc1111-1111-1111-1111-111111111111', 'reflection_journal', NULL, NOW() - interval '24 days' + interval '20 minutes', NOW() - interval '24 days' + interval '40 minutes', '{"word_count": 300}', NOW() - interval '24 days', NOW() - interval '24 days'),
+  ('act33333-3333-3333-3333-333333333333', '33333333-3333-3333-3333-333333333333', 'cccc2222-2222-2222-2222-222222222222', 'quiz', NULL, NOW() - interval '12 days', NOW() - interval '12 days' + interval '20 minutes', '{"quiz_type": "ethics"}', NOW() - interval '12 days', NOW() - interval '12 days'),
+  ('act33334-4444-3333-3333-333333333333', '33333333-3333-3333-3333-333333333333', 'cccc2222-2222-2222-2222-222222222222', 'game', NULL, NOW() - interval '12 days' + interval '30 minutes', NOW() - interval '12 days' + interval '50 minutes', '{"game_name": "Zen Tiles"}', NOW() - interval '12 days', NOW() - interval '12 days'),
+  ('act33335-5555-3333-3333-333333333333', '33333333-3333-3333-3333-333333333333', 'cccc2222-2222-2222-2222-222222222222', 'reflection_journal', NULL, NOW() - interval '12 days' + interval '55 minutes', NOW() - interval '12 days' + interval '1 hour 10 minutes', '{"word_count": 220}', NOW() - interval '12 days', NOW() - interval '12 days'),
+  
+  -- Diana's activities (Poet)
+  ('act44441-1111-4444-4444-444444444444', '44444444-4444-4444-4444-444444444444', 'dddd1111-1111-1111-1111-111111111111', 'ask_nandi', NULL, NOW() - interval '19 days', NOW() - interval '19 days' + interval '15 minutes', '{"topic": "poetry", "style": "poetic"}', NOW() - interval '19 days', NOW() - interval '19 days'),
+  ('act44442-2222-4444-4444-444444444444', '44444444-4444-4444-4444-444444444444', 'dddd1111-1111-1111-1111-111111111111', 'reflection_journal', NULL, NOW() - interval '19 days' + interval '20 minutes', NOW() - interval '19 days' + interval '45 minutes', '{"word_count": 280, "style": "poetic"}', NOW() - interval '19 days', NOW() - interval '19 days'),
+  ('act44443-3333-4444-4444-444444444444', '44444444-4444-4444-4444-444444444444', 'dddd2222-2222-2222-2222-222222222222', 'ask_nandi', NULL, NOW() - interval '8 days', NOW() - interval '8 days' + interval '15 minutes', '{"topic": "creativity", "style": "poetic"}', NOW() - interval '8 days', NOW() - interval '8 days'),
+  ('act44444-4444-4444-4444-444444444444', '44444444-4444-4444-4444-444444444444', 'dddd2222-2222-2222-2222-222222222222', 'reflection_journal', NULL, NOW() - interval '8 days' + interval '20 minutes', NOW() - interval '8 days' + interval '40 minutes', '{"word_count": 320, "style": "poetic"}', NOW() - interval '8 days', NOW() - interval '8 days'),
+  
+  -- Ethan's activities (Writer with long journal entries)
+  ('act55551-1111-5555-5555-555555555555', '55555555-5555-5555-5555-555555555555', 'eeee1111-1111-1111-1111-111111111111', 'ask_nandi', NULL, NOW() - interval '17 days', NOW() - interval '17 days' + interval '20 minutes', '{"topic": "writing"}', NOW() - interval '17 days', NOW() - interval '17 days'),
+  ('act55552-2222-5555-5555-555555555555', '55555555-5555-5555-5555-555555555555', 'eeee1111-1111-1111-1111-111111111111', 'reflection_journal', NULL, NOW() - interval '17 days' + interval '25 minutes', NOW() - interval '17 days' + interval '1 hour 25 minutes', '{"word_count": 1200}', NOW() - interval '17 days', NOW() - interval '17 days'),
+  ('act55553-3333-5555-5555-555555555555', '55555555-5555-5555-5555-555555555555', 'eeee1111-1111-1111-1111-111111111111', 'quiz', NULL, NOW() - interval '17 days' + interval '1 hour 30 minutes', NOW() - interval '17 days' + interval '1 hour 50 minutes', '{"quiz_type": "creativity"}', NOW() - interval '17 days', NOW() - interval '17 days'),
+  ('act55554-4444-5555-5555-555555555555', '55555555-5555-5555-5555-555555555555', 'eeee2222-2222-2222-2222-222222222222', 'ask_nandi', NULL, NOW() - interval '9 days', NOW() - interval '9 days' + interval '15 minutes', '{"topic": "storytelling"}', NOW() - interval '9 days', NOW() - interval '9 days'),
+  ('act55555-5555-5555-5555-555555555555', '55555555-5555-5555-5555-555555555555', 'eeee2222-2222-2222-2222-222222222222', 'reflection_journal', NULL, NOW() - interval '9 days' + interval '20 minutes', NOW() - interval '9 days' + interval '1 hour 20 minutes', '{"word_count": 1500}', NOW() - interval '9 days', NOW() - interval '9 days'),
+  
+  -- Fiona's activities (Gamer)
+  ('act66661-1111-6666-6666-666666666666', '66666666-6666-6666-6666-666666666666', 'ffff1111-1111-1111-1111-111111111111', 'game', NULL, NOW() - interval '14 days', NOW() - interval '14 days' + interval '45 minutes', '{"game_name": "Zen Tiles", "level": 5}', NOW() - interval '14 days', NOW() - interval '14 days'),
+  ('act66662-2222-6666-6666-666666666666', '66666666-6666-6666-6666-666666666666', 'ffff1111-1111-1111-1111-111111111111', 'game', NULL, NOW() - interval '14 days' + interval '50 minutes', NOW() - interval '14 days' + interval '1 hour 10 minutes', '{"game_name": "Focus Quest", "level": 3}', NOW() - interval '14 days', NOW() - interval '14 days'),
+  ('act66663-3333-6666-6666-666666666666', '66666666-6666-6666-6666-666666666666', 'ffff2222-2222-2222-2222-222222222222', 'game', NULL, NOW() - interval '7 days', NOW() - interval '7 days' + interval '1 hour', '{"game_name": "Zen Tiles", "level": 8}', NOW() - interval '7 days', NOW() - interval '7 days'),
+  ('act66664-4444-6666-6666-666666666666', '66666666-6666-6666-6666-666666666666', 'ffff2222-2222-2222-2222-222222222222', 'game', NULL, NOW() - interval '7 days' + interval '1 hour 10 minutes', NOW() - interval '7 days' + interval '1 hour 50 minutes', '{"game_name": "Focus Quest", "level": 5}', NOW() - interval '7 days', NOW() - interval '7 days'),
+  ('act66665-5555-6666-6666-666666666666', '66666666-6666-6666-6666-666666666666', 'ffff3333-3333-3333-3333-333333333333', 'game', NULL, NOW() - interval '2 days', NOW() - interval '2 days' + interval '1 hour', '{"game_name": "Zen Tiles", "level": 12}', NOW() - interval '2 days', NOW() - interval '2 days'),
+  ('act66666-6666-6666-6666-666666666666', '66666666-6666-6666-6666-666666666666', 'ffff3333-3333-3333-3333-333333333333', 'ask_nandi', NULL, NOW() - interval '2 days' + interval '1 hour 10 minutes', NOW() - interval '2 days' + interval '1 hour 25 minutes', '{"topic": "gaming"}', NOW() - interval '2 days', NOW() - interval '2 days'),
+  
+  -- George's activities
+  ('act77771-1111-7777-7777-777777777777', '77777777-7777-7777-7777-777777777777', 'gggg1111-1111-1111-1111-111111111111', 'ask_nandi', NULL, NOW() - interval '9 days', NOW() - interval '9 days' + interval '15 minutes', '{"topic": "data analysis"}', NOW() - interval '9 days', NOW() - interval '9 days'),
+  ('act77772-2222-7777-7777-777777777777', '77777777-7777-7777-7777-777777777777', 'gggg1111-1111-1111-1111-111111111111', 'quiz', NULL, NOW() - interval '9 days' + interval '20 minutes', NOW() - interval '9 days' + interval '35 minutes', '{"quiz_type": "logical reasoning"}', NOW() - interval '9 days', NOW() - interval '9 days'),
+  ('act77773-3333-7777-7777-777777777777', '77777777-7777-7777-7777-777777777777', 'gggg2222-2222-2222-2222-222222222222', 'ask_nandi', NULL, NOW() - interval '3 days', NOW() - interval '3 days' + interval '20 minutes', '{"topic": "efficiency"}', NOW() - interval '3 days', NOW() - interval '3 days'),
+  ('act77774-4444-7777-7777-777777777777', '77777777-7777-7777-7777-777777777777', 'gggg2222-2222-2222-2222-222222222222', 'reflection_journal', NULL, NOW() - interval '3 days' + interval '25 minutes', NOW() - interval '3 days' + interval '45 minutes', '{"word_count": 350}', NOW() - interval '3 days', NOW() - interval '3 days'),
+  ('act77775-5555-7777-7777-777777777777', '77777777-7777-7777-7777-777777777777', 'gggg2222-2222-2222-2222-222222222222', 'game', NULL, NOW() - interval '3 days' + interval '50 minutes', NOW() - interval '3 days' + interval '1 hour 10 minutes', '{"game_name": "Focus Quest"}', NOW() - interval '3 days', NOW() - interval '3 days'),
+  
+  -- Hannah's activities
+  ('act88881-1111-8888-8888-888888888888', '88888888-8888-8888-8888-888888888888', 'hhhh1111-1111-1111-1111-111111111111', 'ask_nandi', NULL, NOW() - interval '4 days', NOW() - interval '4 days' + interval '15 minutes', '{"topic": "mindfulness"}', NOW() - interval '4 days', NOW() - interval '4 days'),
+  ('act88882-2222-8888-8888-888888888888', '88888888-8888-8888-8888-888888888888', 'hhhh1111-1111-1111-1111-111111111111', 'reflection_journal', NULL, NOW() - interval '4 days' + interval '20 minutes', NOW() - interval '4 days' + interval '40 minutes', '{"word_count": 280}', NOW() - interval '4 days', NOW() - interval '4 days'),
+  ('act88883-3333-8888-8888-888888888888', '88888888-8888-8888-8888-888888888888', 'hhhh1111-1111-1111-1111-111111111111', 'quiz', NULL, NOW() - interval '4 days' + interval '45 minutes', NOW() - interval '4 days' + interval '1 hour', '{"quiz_type": "mindfulness"}', NOW() - interval '4 days', NOW() - interval '4 days'),
+  ('act88884-4444-8888-8888-888888888888', '88888888-8888-8888-8888-888888888888', 'hhhh2222-2222-2222-2222-222222222222', 'ask_nandi', NULL, NOW() - interval '1 day', NOW() - interval '1 day' + interval '15 minutes', '{"topic": "meditation"}', NOW() - interval '1 day', NOW() - interval '1 day'),
+  ('act88885-5555-8888-8888-888888888888', '88888888-8888-8888-8888-888888888888', 'hhhh2222-2222-2222-2222-222222222222', 'game', NULL, NOW() - interval '1 day' + interval '20 minutes', NOW() - interval '1 day' + interval '40 minutes', '{"game_name": "Zen Tiles"}', NOW() - interval '1 day', NOW() - interval '1 day');
+
+-- 5. ASK NANDI CONVERSATIONS
+INSERT INTO ask_nandi_conversations (id, user_id, question, tone, response, reflective_summary, created_at, updated_at) VALUES
+  -- Alice's conversations
+  ('anc11111-1111-1111-1111-111111111111', 'a1111111-1111-1111-1111-111111111111', 'How can I improve my meditation practice?', 'spiritual', 'Meditation is a journey of self-discovery. Begin by setting aside a few minutes each day to sit in stillness. Focus on your breath, and when your mind wanders, gently bring it back. Over time, extend your practice. Remember, consistency matters more than duration.', 'Alice is seeking to deepen her meditation practice. She seems open to spiritual guidance and looking for practical steps to improve.', NOW() - interval '29 days', NOW() - interval '29 days'),
+  ('anc11112-2222-1111-1111-111111111111', 'a1111111-1111-1111-1111-111111111111', 'What are some techniques for managing stress?', 'spiritual', 'Stress often arises when we resist what is. Try mindful breathing - inhale peace, exhale tension. Practice gratitude daily. Connect with nature. Remember that challenges are opportunities for growth. Your spirit is stronger than any temporary difficulty.', 'Alice is experiencing stress and seeking holistic management techniques. She responds well to spiritual framing of practical advice.', NOW() - interval '10 days', NOW() - interval '10 days'),
+  
+  -- Bob's conversations
+  ('anc22221-1111-2222-2222-222222222222', '22222222-2222-2222-2222-222222222222', 'How can I be more productive with my time?', 'scientific', 'Research shows that productivity follows the Pareto principle - 80% of results come from 20% of efforts. Try time-blocking using the Pomodoro technique: 25 minutes of focused work followed by a 5-minute break. Studies indicate this reduces cognitive fatigue and increases output by up to 25%.', 'Bob is seeking evidence-based productivity methods. He values efficiency and responds well to data-backed suggestions.', NOW() - interval '27 days', NOW() - interval '27 days'),
+  
+  -- Charlie's conversations
+  ('anc33331-1111-3333-3333-333333333333', '33333333-3333-3333-3333-333333333333', 'What does Socrates teach us about self-knowledge?', 'philosophical', 'Socrates famously said, "The unexamined life is not worth living." He believed true wisdom begins with acknowledging our own ignorance - "I know that I know nothing." Self-knowledge requires rigorous questioning of our assumptions and beliefs, a process later called Socratic method. This inquiry isn\'t merely intellectual but transforms how we live.', 'Charlie is interested in philosophical perspectives on self-knowledge. He engages deeply with classical philosophy and values critical thinking.', NOW() - interval '24 days', NOW() - interval '24 days'),
+  
+  -- Diana's conversations (Poet)
+  ('anc44441-1111-4444-4444-444444444444', '44444444-4444-4444-4444-444444444444', 'How can I find inspiration for my poetry?', 'poetic', 'Inspiration dwells in the spaces between heartbeats, in the whisper of leaves dancing with the wind, in the silent conversation between stars. Walk barefoot on dewy grass at dawn. Listen to the stories rain tells against your window. Collect fragments of overheard conversations, the color of a stranger\'s laugh. Poetry isn\'t found—it finds you when you become porous to the world\'s wonder.', 'Diana seeks creative inspiration for her poetry. She responds strongly to poetic language and metaphorical thinking.', NOW() - interval '19 days', NOW() - interval '19 days'),
+  ('anc44442-2222-4444-4444-444444444444', '44444444-4444-4444-4444-444444444444', 'What makes a poem meaningful?', 'poetic', 'A meaningful poem is a bridge between souls, spanning the seemingly infinite space between your truth and mine. It\'s the crystallization of emotion into language so precise it becomes universal. A poem matters when it bears witness to both beauty and suffering, when it names the unnameable, when it holds contradictions in its gentle hands without breaking them apart. The most meaningful poems are those that change us, leaving us slightly different than we were before we encountered them.', 'Diana is exploring the essence of meaningful poetry. She values emotional resonance and transformative experiences in art.', NOW() - interval '8 days', NOW() - interval '8 days'),
+  
+  -- Ethan's conversations (Writer)
+  ('anc55551-1111-5555-5555-555555555555', '55555555-5555-5555-5555-555555555555', 'How can I overcome writer\'s block?', 'philosophical', 'Writer\'s block often emerges not from a lack of ideas but from fear—fear of imperfection, judgment, or revealing too much of ourselves. Consider that the block itself might be telling you something important about your work or process. Perhaps you\'ve taken a wrong turn in your narrative, or you\'re trying to write something that doesn\'t truly resonate with you. Try freewriting without judgment, changing your environment, or engaging with inspiring works. Remember that all great writers face resistance—what matters is continuing despite it.', 'Ethan is experiencing creative blockage in his writing. He appreciates thoughtful analysis of creative challenges.', NOW() - interval '17 days', NOW() - interval '17 days'),
+  ('anc55552-2222-5555-5555-555555555555', '55555555-5555-5555-5555-555555555555', 'What makes a compelling character in a story?', 'philosophical', 'A compelling character embodies the fundamental tension of human existence—the desire for connection alongside the fear of vulnerability. They must want something deeply, yet face both external obstacles and internal contradictions that prevent easy fulfillment of that desire. The most memorable characters contain multitudes—they surprise us yet remain consistent with their core truth. They change through the story while revealing something universal about our shared humanity. In essence, we find characters compelling when they mirror our own complexity back to us in a way that helps us better understand ourselves.', 'Ethan is exploring character development in his writing. He values depth and psychological complexity in storytelling.', NOW() - interval '9 days', NOW() - interval '9 days'),
+  
+  -- Fiona's conversations (Gamer)
+  ('anc66661-1111-6666-6666-666666666666', '66666666-6666-6666-6666-666666666666', 'How can gaming improve cognitive skills?', 'scientific', 'Research indicates that strategic video games can enhance several cognitive domains. Action games have been shown to improve visual-spatial skills and reaction time by up to 20%. Strategy games strengthen problem-solving abilities and working memory. Studies from the University of Rochester demonstrate that gamers make decisions 25% faster without sacrificing accuracy. The key is balanced engagement—2-3 hours weekly shows cognitive benefits, while excessive play may have diminishing returns.', 'Fiona is interested in the cognitive benefits of her gaming hobby. She values scientific evidence and practical applications.', NOW() - interval '2 days', NOW() - interval '2 days'),
+  
+  -- George's conversations
+  ('anc77771-1111-7777-7777-777777777777', '77777777-7777-7777-7777-777777777777', 'What are the best methods for analyzing large datasets?', 'scientific', 'For large datasets, dimensional reduction techniques like Principal Component Analysis (PCA) or t-SNE are essential first steps to identify patterns. Random Forest algorithms offer robust performance across various data types with minimal parameter tuning. For time-series data, ARIMA models remain effective, though recurrent neural networks show superior performance with sufficient training data. Always begin with exploratory data analysis to understand distributions and correlations before applying complex models. Efficient processing frameworks like Apache Spark become necessary when data exceeds local memory capacity.', 'George is seeking analytical methods for data science work. He values technical precision and efficiency in his approach.', NOW() - interval '9 days', NOW() - interval '9 days'),
+  ('anc77772-2222-7777-7777-777777777777', '77777777-7777-7777-7777-777777777777', 'How can I improve my decision-making process?', 'scientific', 'Decision-making can be optimized through structured frameworks. The WRAP method (Widen options, Reality-test assumptions, Attain distance, Prepare to be wrong) has shown a 50% improvement in decision quality in organizational studies. Cognitive biases like confirmation bias and recency bias can be mitigated through techniques such as pre-mortems and explicit consideration of base rates. Decision journals tracking your choices and subsequent outcomes create feedback loops that research shows improve decision quality over time by approximately 20%.', 'George is looking to enhance his decision-making process. He appreciates evidence-based approaches and quantifiable improvements.', NOW() - interval '3 days', NOW() - interval '3 days'),
+  
+  -- Hannah's conversations
+-- 6. ASK NANDI REFLECTIONS
+INSERT INTO ask_nandi_reflections (id, conversation_id, user_id, journal_entry, tags, created_at, updated_at) VALUES
+  -- Alice's reflections
+  ('anr11111-1111-1111-1111-111111111111', 'anc11111-1111-1111-1111-111111111111', 'a1111111-1111-1111-1111-111111111111', 'Today I tried meditating for 10 minutes instead of my usual 5. I noticed my mind was racing at first, thinking about work deadlines and my to-do list. But after focusing on my breath for a while, I started to feel more calm. I think consistency is key, as Nandi mentioned. I'll try to meditate every morning this week.', ARRAY['meditation', 'practice', 'mindfulness'], NOW() - interval '29 days' + interval '10 minutes', NOW() - interval '29 days' + interval '10 minutes'),
+  ('anr11112-2222-1111-1111-111111111111', 'anc11112-2222-1111-1111-111111111111', 'a1111111-1111-1111-1111-111111111111', 'I've been feeling overwhelmed lately with work and family obligations. The mindful breathing technique Nandi suggested helped me calm down during a stressful meeting today. I'm going to try the gratitude practice too - maybe writing down three things I'm grateful for each evening. I like the idea that challenges help us grow, though it's hard to remember that in the moment.', ARRAY['stress', 'breathing', 'gratitude'], NOW() - interval '10 days' + interval '5 minutes', NOW() - interval '10 days' + interval '5 minutes'),
+  
+  -- Bob's reflections
+  ('anr22221-1111-2222-2222-222222222222', 'anc22221-1111-2222-2222-222222222222', '22222222-2222-2222-2222-222222222222', 'I implemented the Pomodoro technique today and completed 6 focused sessions. My productivity increased noticeably - I finished the quarterly report in half the time it usually takes. The 5-minute breaks were essential for maintaining focus. I'll continue tracking my productivity metrics to quantify the improvement over time.', ARRAY['productivity', 'pomodoro', 'focus'], NOW() - interval '27 days' + interval '15 minutes', NOW() - interval '27 days' + interval '15 minutes'),
+  
+  -- Charlie's reflections
+{{ ... }}
+  ('anr33331-1111-3333-3333-333333333333', 'anc33331-1111-3333-3333-333333333333', '33333333-3333-3333-3333-333333333333', 'The Socratic approach to questioning my own assumptions has been revelatory. Today I caught myself making a judgment about a colleague without sufficient evidence. By applying the "I know that I know nothing" principle, I was able to approach the situation with more curiosity and less certainty. This led to a much more productive conversation. I wonder how many of my firmly held beliefs would dissolve under careful examination.', ARRAY['philosophy', 'socrates', 'self-knowledge'], NOW() - interval '24 days' + interval '10 minutes', NOW() - interval '24 days' + interval '10 minutes'),
+  
+  -- Diana's reflections (Poet)
+  ('anr44441-1111-4444-4444-444444444444', 'anc44441-1111-4444-4444-444444444444', '44444444-4444-4444-4444-444444444444', 'This morning I walked barefoot through the garden as the sun was rising. The dew between my toes felt like tiny stars cooling my skin. I collected fragments of sound—birdsong, distant traffic, the neighbor\'s wind chimes—and wove them into a poem about the conversation between human and natural rhythms. Nandi\'s advice to become "porous to wonder" resonated deeply. I found myself noticing details I would have missed before: the perfect spiral of a snail shell, the way light fractured through dewdrops, the dance of shadows as clouds passed overhead.', ARRAY['poetry', 'inspiration', 'nature'], NOW() - interval '19 days' + interval '20 minutes', NOW() - interval '19 days' + interval '20 minutes'),
+  ('anr44442-2222-4444-4444-444444444444', 'anc44442-2222-4444-4444-444444444444', '44444444-4444-4444-4444-444444444444', 'I revisited poems that have moved me deeply over the years—Mary Oliver\'s "Wild Geese," Rumi\'s "The Guest House," Pablo Neruda\'s "Ode to Common Things." What strikes me is how each created a bridge between their experience and mine, how they transformed ordinary moments into revelations. In my own work, I\'ve been too concerned with sounding clever rather than speaking truth. Today I wrote a simple poem about my mother\'s hands and found myself weeping as I wrote. Perhaps that\'s the measure of meaningful poetry—not its technical brilliance but its capacity to move both writer and reader toward greater wholeness.', ARRAY['poetry', 'meaning', 'emotion'], NOW() - interval '8 days' + interval '15 minutes', NOW() - interval '8 days' + interval '15 minutes'),
+  
+  -- Ethan's reflections (Writer)
+  ('anr55551-1111-5555-5555-555555555555', 'anc55551-1111-5555-5555-555555555555', '55555555-5555-5555-5555-555555555555', 'I tried freewriting this morning without any agenda or judgment. After 20 minutes of seemingly random thoughts, a pattern emerged that surprised me. I\'ve been trying to force my protagonist into a plot direction that doesn\'t align with the character I\'ve created. No wonder I\'ve been blocked. The resistance itself was information I needed. I\'ve now reimagined the middle section of the novel, allowing the character to make choices that feel authentic rather than contrived. The words flowed easily after that realization, and I wrote 2,000 words today after weeks of stagnation.', ARRAY['writing', 'creativity', 'writer\'s block'], NOW() - interval '17 days' + interval '25 minutes', NOW() - interval '17 days' + interval '25 minutes'),
+  ('anr55552-2222-5555-5555-555555555555', 'anc55552-2222-5555-5555-555555555555', '55555555-5555-5555-5555-555555555555', 'I\'ve been reflecting on what makes characters in my favorite novels so compelling. In "Middlemarch," Dorothea\'s idealism and blindness exist simultaneously, creating tension that drives her development. In "The Brothers Karamazov," each brother represents a different approach to existence, yet none is presented as having the complete answer. I\'ve been making my characters too consistent, too easily categorized. Today I revised my character sketches, adding contradictions and competing desires to each. My protagonist now wants connection but fears vulnerability; seeks truth but maintains comfortable illusions. Already she feels more alive on the page, less like a puppet I\'m moving through predetermined scenes.', ARRAY['writing', 'character development', 'complexity'], NOW() - interval '9 days' + interval '20 minutes', NOW() - interval '9 days' + interval '20 minutes'),
+  
+  -- Fiona's reflections (Gamer)
+  ('anr66661-1111-6666-6666-666666666666', 'anc66661-1111-6666-6666-666666666666', '66666666-6666-6666-6666-666666666666', 'I\'ve noticed improvements in my decision-making speed at work since I started playing strategy games regularly. Yesterday, I had to quickly prioritize tasks when an unexpected deadline emerged, and I found myself applying the same rapid assessment skills I use in Focus Quest. The research Nandi mentioned about gamers making decisions 25% faster matches my experience. I\'m going to maintain my current gaming schedule of about 3 hours per week, which seems to be the sweet spot for cognitive benefits without taking too much time from other activities.', ARRAY['gaming', 'cognitive skills', 'decision-making'], NOW() - interval '2 days' + interval '10 minutes', NOW() - interval '2 days' + interval '10 minutes'),
+  
+  -- George's reflections
+  ('anr77771-1111-7777-7777-777777777777', 'anc77771-1111-7777-7777-777777777777', '77777777-7777-7777-7777-777777777777', 'Applied PCA to the customer behavior dataset today and reduced 24 variables to 5 principal components that explain 87% of the variance. This made patterns immediately apparent that weren\'t visible in the raw data. I\'m implementing Random Forest for the predictive model as Nandi suggested, with cross-validation to prevent overfitting. The exploratory data analysis phase was crucial - I found several unexpected correlations that will improve our targeting strategy. Next step is to set up Apache Spark for processing the full dataset, as we\'re currently working with just a 10% sample.', ARRAY['data analysis', 'machine learning', 'dimensionality reduction'], NOW() - interval '9 days' + interval '15 minutes', NOW() - interval '9 days' + interval '15 minutes'),
+  ('anr77772-2222-7777-7777-777777777777', 'anc77772-2222-7777-7777-777777777777', '77777777-7777-7777-7777-777777777777', 'I\'ve started implementing the WRAP decision framework for our team\'s product development process. Today we widened our options by bringing in perspectives from customer support and sales, not just engineering. We reality-tested our assumptions about user needs by examining actual usage data rather than relying on our intuitions. I\'ve also created a decision journal template for the team to track our choices and outcomes. Already I\'ve noticed we\'re less likely to jump to the first solution proposed. The pre-mortem exercise was particularly valuable - it identified three potential failure points we hadn\'t considered.', ARRAY['decision-making', 'cognitive bias', 'team process'], NOW() - interval '3 days' + interval '20 minutes', NOW() - interval '3 days' + interval '20 minutes'),
+  
+  -- Hannah's reflections
+  ('anr88881-1111-8888-8888-888888888888', 'anc88881-1111-8888-8888-888888888888', '88888888-8888-8888-8888-888888888888', 'I practiced mindful eating at breakfast today, paying full attention to the flavors and textures of my food without the usual distraction of my phone. It was remarkable how much richer the experience became. I also tried mindful listening during a conversation with my partner, focusing completely on their words without planning my response. They commented afterward that they felt truly heard. The five-minute morning breath awareness Nandi suggested has created a ripple effect throughout my day - I\'ve found myself pausing to breathe deeply during moments of stress, which helps me respond rather than react.', ARRAY['mindfulness', 'daily life', 'awareness'], NOW() - interval '4 days' + interval '10 minutes', NOW() - interval '4 days' + interval '10 minutes'),
+  ('anr88882-2222-8888-8888-888888888888', 'anc88882-2222-8888-8888-888888888888', '88888888-8888-8888-8888-888888888888', 'I tried the loving-kindness meditation this morning, starting with myself and then extending well-wishes to loved ones, acquaintances, and even people I find difficult. It was challenging at first, especially directing compassion toward myself and those I have conflicts with. But by the end of the session, I felt a subtle shift - a softening around my heart. I\'ll continue with the 5-minute breath meditation in the mornings and add this loving-kindness practice in the evenings. As Nandi said, each time I notice my mind wandering is actually a moment of awakening, not failure.', ARRAY['meditation', 'compassion', 'practice'], NOW() - interval '1 day' + interval '10 minutes', NOW() - interval '1 day' + interval '10 minutes');
+
+-- 7. REFLECTION JOURNAL ENTRIES
+INSERT INTO reflection_journal_entries (id, user_id, content, tags, created_at, updated_at) VALUES
+  -- Alice's journal entries
+  ('rje11111-1111-1111-1111-111111111111', 'a1111111-1111-1111-1111-111111111111', 'Today I\'m grateful for:
+1. The morning sunshine that filtered through my window
+2. A supportive conversation with my colleague Jane
+3. The delicious homemade soup I had for lunch
+
+I\'ve been thinking about how gratitude shifts my perspective. When I focus on what I\'m thankful for, problems that seemed overwhelming suddenly appear manageable. I want to make this a daily practice.', ARRAY['gratitude', 'perspective', 'practice'], NOW() - interval '28 days', NOW() - interval '28 days'),
+  ('rje11112-2222-1111-1111-111111111111', '11111111-1111-1111-1111-111111111111', 'I noticed myself getting frustrated in traffic today. My usual reaction would be to tense up, grip the steering wheel tighter, and maybe even say something unkind about other drivers. But today I tried something different - I took three deep breaths and asked myself: "Will this matter in a year?" The answer was obviously no. Immediately I felt my shoulders relax and even found myself smiling at the absurdity of getting worked up over something so temporary. This small shift in perspective completely changed my morning.', ARRAY['mindfulness', 'perspective', 'stress'], NOW() - interval '15 days', NOW() - interval '15 days'),
+  
+  -- Charlie's journal entries
+  ('rje33331-1111-3333-3333-333333333333', '33333333-3333-3333-3333-333333333333', 'I\'ve been contemplating Epictetus\'s distinction between what we can control and what we cannot. So much of my anxiety stems from trying to control outcomes that are ultimately not mine to determine. Today I made a list in two columns:
+
+Within my control:
+- My responses to situations
+- How I spend my time
+- The information I consume
+- The values I prioritize
+
+Outside my control:
+- Other people\'s opinions
+- The weather
+- Past events
+- The economy
+
+I\'m going to focus my energy exclusively on the first column for the next week and see how that affects my peace of mind.', ARRAY['stoicism', 'control', 'philosophy'], NOW() - interval '23 days', NOW() - interval '23 days'),
+  ('rje33332-2222-3333-3333-333333333333', '33333333-3333-3333-3333-333333333333', 'I\'ve been reading about the concept of "eudaimonia" in Aristotle\'s ethics - the idea that happiness comes not from pleasure or wealth but from living virtuously and fulfilling one\'s potential. This resonates deeply with me. When I reflect on times I\'ve felt most fulfilled, they\'ve always involved challenging myself to grow or contributing something meaningful to others. Today I helped my elderly neighbor with her groceries, and though it was a small act, it gave me more satisfaction than the two hours I later spent scrolling through social media. I want to be more intentional about aligning my daily actions with this deeper understanding of flourishing.', ARRAY['philosophy', 'virtue', 'purpose'], NOW() - interval '10 days', NOW() - interval '10 days'),
+  
+  -- Diana's journal entries (Poet)
+  ('rje44441-1111-4444-4444-444444444444', '44444444-4444-4444-4444-444444444444', 'The world speaks in whispers
+if only we would listen
+with more than our ears.
+
+Today the wind carried secrets between autumn leaves. I sat beneath the old oak tree and closed my eyes, feeling the conversation happening all around me. How strange that we think ourselves separate from this constant communion of elements. We are as much a part of this exchange as the birds and the soil and the clouds overhead.
+
+I am learning to translate these whispers into poetry. Sometimes it comes as haiku, other times as sprawling free verse. The form matters less than the act of bearing witness to what is already happening, always happening, beneath the surface of our hurried lives.', ARRAY['poetry', 'nature', 'awareness'], NOW() - interval '18 days', NOW() - interval '18 days'),
+  ('rje44442-2222-4444-4444-444444444444', '44444444-4444-4444-4444-444444444444', 'In the space between
+heartbeats, entire worlds form
+and dissolve like mist.
+
+I\'ve been contemplating impermanence today. How everything we cling to is already in the process of becoming something else. The coffee in my cup cooling degree by degree. The bruise on my arm shifting through its spectrum of colors. The thought I was certain of yesterday, transformed by today\'s experience.
+
+There is such beauty in this constant state of becoming. Poetry lives not in perfect, static things but in the shimmer of transformation. I want my words to capture that shimmer, to hold the paradox of presence and passing in the same line, the same breath.
+
+The sun sets now
+painting the sky with colors
+that will never be
+exactly this way again.
+I am here to witness.', ARRAY['poetry', 'impermanence', 'awareness'], NOW() - interval '7 days', NOW() - interval '7 days'),
+  
+  -- Ethan's journal entries (Writer with long entries)
+  ('rje55551-1111-5555-5555-555555555555', '55555555-5555-5555-5555-555555555555', 'I\'ve been thinking about the role of conflict in storytelling and how it mirrors our own lives. In fiction, we understand intuitively that without conflict, there is no story. A character who gets everything they want immediately and faces no obstacles would make for an unbearably boring novel. Yet in our own lives, we often resent and resist the very conflicts that are shaping our most meaningful stories.
+
+Today I received a rejection letter for a short story I\'ve been working on for months. My initial reaction was disappointment and self-doubt. But then I remembered something I always tell my writing students: "The obstacle is the way." This rejection is now part of my story as a writer. It\'s an opportunity to revise, to dig deeper, to prove my commitment to the craft.
+
+I\'ve decided to completely rewrite the story from a different character\'s perspective. Already I can see how this constraint is forcing me to discover aspects of the narrative I hadn\'t considered before. The rejection wasn\'t the end of the story\'s journey—it was a plot twist that opened up new possibilities.
+
+I wonder how many other "rejections" in my life might actually be redirections toward something more interesting than what I had originally planned. The job I didn\'t get that led me to pursue writing more seriously. The relationship that ended and created space for deeper self-knowledge. The illness that slowed me down enough to notice what I had been missing.
+
+Perhaps our most compelling life stories emerge not despite our setbacks but because of them. The question isn\'t whether we\'ll face conflicts—we will—but how we\'ll incorporate them into the larger narrative we\'re living. Will they become defining moments of character development or merely footnotes of frustration?
+
+I\'m choosing to embrace the conflicts in both my writing and my life as invitations to a more interesting story. After all, the most memorable characters are not those who never struggle, but those who struggle in fascinating ways.', ARRAY['writing', 'conflict', 'perspective', 'rejection'], NOW() - interval '16 days', NOW() - interval '16 days'),
+  ('rje55552-2222-5555-5555-555555555555', '55555555-5555-5555-5555-555555555555', 'I\'ve been experimenting with different writing environments and their effect on my creative output. For the past week, I\'ve written in a different location each day:
+
+Monday: My home office - Produced 1,200 words of my novel. The writing was technically sound but felt somewhat mechanical. The familiar environment seemed to encourage habitual thinking.
+
+Tuesday: A busy café - Only 800 words, but they took the story in an unexpected direction. The ambient noise and human activity around me seemed to infuse the writing with more dynamic dialogue. Interesting how the external energy translated to the page.
+
+Wednesday: The public library - 1,500 words. The quiet, scholarly atmosphere and presence of books created a sense of literary continuity. My vocabulary became more precise, and I found myself paying closer attention to sentence structure.
+
+Thursday: A park bench - Just 600 words, but they were highly sensory and descriptive. I noticed details about the natural world that immediately found their way into the setting of my story. The physical openness seemed to create mental openness.
+
+Friday: A museum - 900 words written in short bursts between exhibits. The exposure to visual art dramatically shifted my prose style. I found myself experimenting with more fragmented, impressionistic passages. The character\'s perception became more central than the plot.
+
+Saturday: My bedroom, immediately upon waking - 1,100 words that had a dreamlike, surreal quality. Writing before fully entering the logical, planning mind of daytime allowed for unexpected associations and metaphors.
+
+Sunday: A train journey - 1,300 words with a strong sense of momentum. The narrative took on the rhythm of the train itself—alternating between reflective pauses at stations and driving forward movement. The passing landscape provided constant new stimuli.
+
+What I\'ve learned from this experiment is that environment shapes cognition in profound ways. The same scene written in seven different locations resulted in seven distinctly different versions. None was objectively "better" than the others, but each accessed different aspects of creativity.
+
+Moving forward, I plan to be more intentional about matching my writing environment to the type of scene I\'m working on. Dialogue-heavy passages might benefit from the energy of public spaces. Introspective character development might flow better from the quiet of the library. Action sequences might take on more urgency when written somewhere with physical movement around me.
+
+The external world and internal imagination are not separate realms but exist in constant conversation. By changing where I position my body, I also change where my mind can wander.', ARRAY['writing', 'creativity', 'environment', 'process'], NOW() - interval '8 days', NOW() - interval '8 days'),
+  ('rje55553-3333-5555-5555-555555555555', '55555555-5555-5555-5555-555555555555', 'I\'ve been reflecting on the ethical dimensions of fiction writing. When we create characters whose experiences differ significantly from our own, what responsibilities do we bear? This question has been weighing on me as I develop a character in my novel whose background includes elements I haven\'t personally lived.
+
+On one hand, fiction has always been an exercise in imagination and empathy—the ability to step outside ourselves and inhabit other perspectives. If writers only created characters identical to themselves, literature would be impoverished, offering just a narrow slice of human experience.
+
+On the other hand, representation matters deeply. When we portray experiences that others live as their reality, especially those from marginalized communities, there\'s a responsibility to do so with accuracy, nuance, and respect. Stereotypes and misconceptions can be perpetuated through careless characterization.
+
+I\'ve decided on several principles to guide my approach:
+
+1. Research extensively, not just facts but perspectives. This means reading memoirs, journalism, academic studies, and especially fiction by authors who have lived experiences similar to my character\'s.
+
+2. Consult sensitivity readers from the relevant community who can identify blind spots or unintentional harmful tropes in my portrayal.
+
+3. Approach the character with humility, recognizing that despite my best efforts, my understanding will be incomplete. This means avoiding presumptions that I can fully represent their experience.
+
+4. Focus on our shared humanity while respecting specific cultural contexts. Universal emotions exist across human experience, but they manifest in culturally specific ways.
+
+5. Question my motivations for including this character and ensure they have agency in the narrative rather than serving merely as a plot device or educational tool for other characters.
+
+6. Accept criticism graciously when it comes and be willing to revise.
+
+I believe that imagination across differences is not only possible but necessary for the kind of empathetic connection that fiction at its best can foster. But imagination must be paired with research, consultation, humility, and a willingness to listen and learn.
+
+The alternative—writing only characters who mirror ourselves—would result in a literary landscape as segregated as many of our communities. That seems like an abdication of fiction\'s potential to build bridges of understanding.
+
+Ultimately, I think the question isn\'t whether we should create diverse characters but how we can do so responsibly, with awareness of both our limitations and our obligations to represent others with dignity.', ARRAY['writing', 'ethics', 'representation', 'diversity'], NOW() - interval '3 days', NOW() - interval '3 days'),
+  
+  -- Hannah's journal entries
+  ('rje88881-1111-8888-8888-888888888888', '88888888-8888-8888-8888-888888888888', 'I experienced a moment of perfect presence today while walking home from work. The late afternoon sun was filtering through the trees, creating patterns of light and shadow on the sidewalk. For a few breaths, I completely forgot my worries about tomorrow\'s presentation and the argument I had with my sister. I was simply there, feet touching earth, sun warming skin, breath moving in and out. Nothing needed to be different than it was. I want to remember this feeling of completeness that requires nothing external to be added.', ARRAY['mindfulness', 'presence', 'nature'], NOW() - interval '5 days', NOW() - interval '5 days'),
+  ('rje88882-2222-8888-8888-888888888888', '88888888-8888-8888-8888-888888888888', 'I\'ve been practicing the body scan meditation before sleep this week. I\'ve noticed that when I bring gentle awareness to each part of my body, starting from my toes and moving upward, I discover tension I didn\'t even realize I was holding. My shoulders especially seem to carry the stress of the day. When I consciously release this tension, not only do I fall asleep more easily, but I wake with fewer aches. It\'s fascinating how much physical discomfort comes not from injury but from unconscious holding patterns in response to stress. The body truly keeps the score.', ARRAY['meditation', 'body awareness', 'stress'], NOW() - interval '2 days', NOW() - interval '2 days');
+
+-- 8. MEDITATION SESSIONS
+INSERT INTO meditation_sessions (id, user_id, session_type, duration_minutes, notes, created_at, updated_at) VALUES
+  -- Alice's meditation sessions
+  ('med11111-1111-1111-1111-111111111111', 'a1111111-1111-1111-1111-111111111111', 'mindful_breathing', 10, 'Focused on breath, mind wandered several times but returned to present moment. Felt more centered afterward.', NOW() - interval '29 days', NOW() - interval '29 days'),
+  ('med11112-2222-1111-1111-111111111111', 'a1111111-1111-1111-1111-111111111111', 'loving_kindness', 15, 'Challenging to extend compassion to self and difficult colleagues. Noted physical resistance in chest.', NOW() - interval '10 days', NOW() - interval '10 days'),
+  
+  -- Bob's meditation sessions
+  ('med22221-1111-2222-2222-222222222222', '22222222-2222-2222-2222-222222222222', 'body_scan', 20, 'Discovered tension in shoulders and jaw. Used visualization of warmth to release tightness.', NOW() - interval '27 days', NOW() - interval '27 days'),
+  
+  -- Charlie's meditation sessions
+  ('med33331-1111-3333-3333-333333333333', '33333333-3333-3333-3333-333333333333', 'metta', 12, 'Focused on sending kindness to self and loved ones. Noted feelings of warmth in chest.', NOW() - interval '24 days', NOW() - interval '24 days'),
+  
+  -- Diana's meditation sessions (Poet)
+  ('med44441-1111-4444-4444-444444444444', '44444444-4444-4444-4444-444444444444', 'nature_meditation', 15, 'Sat in garden, focused on sounds of birds and wind. Found inspiration for new poem about interconnectedness.', NOW() - interval '19 days', NOW() - interval '19 days'),
+  ('med44442-2222-4444-4444-444444444444', '44444444-4444-4444-4444-444444444444', 'walking_meditation', 25, 'Walked along river path, focused on sensations of feet touching ground. Noted how thoughts naturally quieted with movement.', NOW() - interval '8 days', NOW() - interval '8 days'),
+  
+  -- Ethan's meditation sessions (Writer)
+  ('med55551-1111-5555-5555-555555555555', '55555555-5555-5555-5555-555555555555', 'loving_kindness', 18, 'Extended well-wishes to characters in novel, found insights into their motivations.', NOW() - interval '17 days', NOW() - interval '17 days'),
+  ('med55552-2222-5555-5555-555555555555', '55555555-5555-5555-5555-555555555555', 'mindful_writing', 30, 'Used meditation as writing prompt, generated new character backstory.', NOW() - interval '9 days', NOW() - interval '9 days'),
+  
+  -- Fiona's meditation sessions (Gamer)
+  ('med66661-1111-6666-6666-666666666666', '66666666-6666-6666-6666-666666666666', 'focus_meditation', 10, 'Improved concentration for gaming sessions. Noted reduction in impulsiveness.', NOW() - interval '2 days', NOW() - interval '2 days'),
+  
+  -- George's meditation sessions
+  ('med77771-1111-7777-7777-777777777777', '77777777-7777-7777-7777-777777777777', 'analytical_meditation', 20, 'Explored concepts of impermanence and interdependence. Found insights applicable to data analysis.', NOW() - interval '9 days', NOW() - interval '9 days'),
+  ('med77772-2222-7777-7777-777777777777', '77777777-7777-7777-7777-777777777777', 'loving_kindness', 15, 'Extended compassion to team members. Noted improvement in workplace relationships.', NOW() - interval '3 days', NOW() - interval '3 days'),
+  
+  -- Hannah's meditation sessions
+  ('med88881-1111-8888-8888-888888888888', '88888888-8888-8888-8888-888888888888', 'mindful_breathing', 5, 'Short morning practice to start day with clarity.', NOW() - interval '4 days', NOW() - interval '4 days'),
+  ('med88882-2222-8888-8888-888888888888', '88888888-8888-8888-8888-888888888888', 'loving_kindness', 10, 'Evening practice focusing on self-compassion.', NOW() - interval '1 day', NOW() - interval '1 day');
+
+-- 9. GRATITUDE JOURNAL ENTRIES
+INSERT INTO gratitude_journal_entries (id, user_id, items, notes, created_at, updated_at) VALUES
+  -- Alice's gratitude entries
+  ('gje11111-1111-1111-1111-111111111111', 'a1111111-1111-1111-1111-111111111111', ARRAY[
+    'The warm sunlight through my window this morning',
+    'A supportive conversation with my colleague Jane',
+    'The delicious homemade soup I had for lunch'
+  ], 'Simple moments of joy often go unnoticed. Gratitude helps me appreciate the small things.', NOW() - interval '28 days', NOW() - interval '28 days'),
+  ('gje11112-2222-1111-1111-111111111111', 'a1111111-1111-1111-1111-111111111111', ARRAY[
+    'My partner\'s understanding during a stressful day',
+    'A beautiful sunset walk with my dog',
+    'The opportunity to learn something new at work'
+  ], 'When I focus on what I\'m thankful for, my perspective shifts from scarcity to abundance.', NOW() - interval '15 days', NOW() - interval '15 days'),
+  
+  -- Bob's gratitude entries
+  ('gje22221-1111-2222-2222-222222222222', '22222222-2222-2222-2222-222222222222', ARRAY[
+    'A productive Pomodoro session that doubled my output',
+    'The support of my team during a challenging project',
+    'Learning a new data analysis technique'
+  ], 'Gratitude for professional growth and supportive colleagues is essential for maintaining motivation.', NOW() - interval '27 days', NOW() - interval '27 days'),
+  
+  -- Charlie's gratitude entries
+  ('gje33331-1111-3333-3333-333333333333', '33333333-3333-3333-3333-333333333333', ARRAY[
+    'The clarity I gained from a Socratic-style conversation',
+    'The opportunity to learn from a challenging situation',
+    'A moment of insight during meditation'
+  ], 'Gratitude for intellectual growth and moments of understanding helps deepen my philosophical practice.', NOW() - interval '24 days', NOW() - interval '24 days'),
+  
+  -- Diana's gratitude entries (Poet)
+  ('gje44441-1111-4444-4444-444444444444', '44444444-4444-4444-4444-444444444444', ARRAY[
+    'The inspiration I found in nature today',
+    'A breakthrough in my current poem',
+    'The supportive feedback from my writing group'
+  ], 'Gratitude for creative inspiration and community support fuels my artistic journey.', NOW() - interval '19 days', NOW() - interval '19 days'),
+  ('gje44442-2222-4444-4444-444444444444', '44444444-4444-4444-4444-444444444444', ARRAY[
+    'The beauty of a sunset reflected in the river',
+    'A chance encounter with an old friend',
+    'The joy of discovering a new book'
+  ], 'Gratitude for unexpected moments of connection and beauty enriches my writing and life.', NOW() - interval '8 days', NOW() - interval '8 days'),
+  
+  -- Ethan's gratitude entries (Writer)
+  ('gje55551-1111-5555-5555-555555555555', '55555555-5555-5555-5555-555555555555', ARRAY[
+    'The breakthrough in my character development',
+    'A supportive critique from my writing mentor',
+    'The inspiration I found in a museum visit'
+  ], 'Gratitude for creative breakthroughs and supportive mentors is essential for maintaining momentum in my writing.', NOW() - interval '17 days', NOW() - interval '17 days'),
+  ('gje55552-2222-5555-5555-555555555555', '55555555-5555-5555-5555-555555555555', ARRAY[
+    'The opportunity to share my work at a local reading',
+    'The constructive feedback from my writing group',
+    'A moment of clarity about my protagonist\'s motivations'
+  ], 'Gratitude for opportunities to share my work and receive constructive feedback helps me grow as a writer.', NOW() - interval '9 days', NOW() - interval '9 days'),
+  
+  -- Fiona's gratitude entries (Gamer)
+  ('gje66661-1111-6666-6666-666666666666', '66666666-6666-6666-6666-666666666666', ARRAY[
+    'The improvement in my focus and decision-making',
+    'A fun gaming session with friends',
+    'The opportunity to try new strategies'
+  ], 'Gratitude for gaming-related improvements in cognitive skills and social connections is important for maintaining balance.', NOW() - interval '2 days', NOW() - interval '2 days'),
+  
+  -- George's gratitude entries
+  ('gje77771-1111-7777-7777-777777777777', '77777777-7777-7777-7777-777777777777', ARRAY[
+    'The breakthrough in my data analysis project',
+    'The support of my team during a challenging phase',
+    'The opportunity to learn a new machine learning technique'
+  ], 'Gratitude for professional achievements and supportive colleagues helps maintain motivation and perspective.', NOW() - interval '9 days', NOW() - interval '9 days'),
+  ('gje77772-2222-7777-7777-777777777777', '77777777-7777-7777-7777-777777777777', ARRAY[
+    'The successful implementation of a new feature',
+    'The positive feedback from users',
+    'The opportunity to mentor a junior team member'
+  ], 'Gratitude for professional growth and the chance to help others is essential for maintaining satisfaction in my work.', NOW() - interval '3 days', NOW() - interval '3 days'),
+  
+  -- Hannah's gratitude entries
+  ('gje88881-1111-8888-8888-888888888888', '88888888-8888-8888-8888-888888888888', ARRAY[
+    'The peaceful morning meditation',
+    'A supportive conversation with a friend',
+    'The opportunity to practice mindfulness throughout the day'
+  ], 'Gratitude for moments of peace and connection helps maintain a positive outlook.', NOW() - interval '4 days', NOW() - interval '4 days'),
+  ('gje88882-2222-8888-8888-888888888888', '88888888-8888-8888-8888-888888888888', ARRAY[
+    'The progress in my meditation practice',
+    'A moment of clarity during a challenging situation',
+    'The support of my meditation community'
+  ], 'Gratitude for spiritual growth and supportive community is essential for maintaining my practice.', NOW() - interval '1 day', NOW() - interval '1 day');

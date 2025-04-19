@@ -2,24 +2,24 @@
 
 ---
 
-## 🗺️ Architectural Vision (Developer View)
+## 📺 Architectural Vision (Developer View)
 
 ```mermaid
-graph TD
-  Temple[temple/ (Next.js UI)]
-  Sadhana[sadhana/ (Python Worker Layer)]
-  DB[(PostgreSQL DB)]
-  Scripts[scripts/ (Data Seeding Tools)]
-  
-  Temple -->|Reads/Writes| DB
-  Sadhana -->|Reads/Writes| DB
-  Scripts -->|Writes| DB
-  Temple -->|Optional (if enabled)| Sadhana
+flowchart TD
+  Temple["temple/ (Next.js UI)"]
+  Sadhana["sadhana/ (Python Worker Layer)"]
+  DB["(PostgreSQL DB)"]
+  Scripts["scripts/ (Data Seeding Tools)"]
+
+  Temple -->|"Reads/Writes"| DB
+  Sadhana -->|"Reads/Writes"| DB
+  Scripts -->|"Writes"| DB
+  Temple -->|"Optional (if enabled)"| Sadhana
 ```
 
 ---
 
-## 📐 Component Map
+## 📊 Component Map
 
 | Component       | Description |
 |-----------------|-------------|
@@ -46,7 +46,7 @@ graph TD
 
 ---
 
-## 🔀 Division of Responsibilities
+## 🔁 Division of Responsibilities
 
 ### 🛕 Temple (Node.js / Next.js)
 
@@ -80,7 +80,7 @@ graph TD
 
 ---
 
-### 🔧 Scripts/
+### 🛠️ Scripts/
 
 **Purpose:**
 One-off or batch scripts that:
@@ -99,6 +99,18 @@ Run manually or via cron.
 
 ## ✨ Nandi Core Features (Agent-Centric)
 
+```mermaid
+flowchart TB
+  A["Ask Nandi"] -->|"streams reply"| T["temple"]
+  B["Moral Play"] --> T
+  C["Reflection Journal"] --> T
+  D["Yoga/Nidra Guidance"] --> T
+  E["Progress Map"] --> T
+  T --> DB["(PostgreSQL DB)"]
+  F["Sadhana score jobs"] --> DB
+  G["Scripts seed prompts"] --> DB
+```
+
 | Feature         | Agent / Function | Description |
 |-----------------|------------------|-------------|
 | **Ask Nandi**   | `AskNandiAgent`  | Handles Jnana Yoga inquiry, streams philosophical replies |
@@ -111,7 +123,7 @@ Run manually or via cron.
 
 ---
 
-## 🧠 Optional Expansion Paths
+## 🌀 Optional Expansion Paths
 
 | Future Feature | Path |
 |----------------|------|
@@ -129,11 +141,12 @@ This system is built with both **technical clarity** and **spiritual intentional
 
 - `temple/` is where the user *meets* Nandi.
 - `sadhana/` is where Nandi *remembers*.
-- The database is the **soul**, where knowledge and karma are stored.
+- The **database** is like the **mind** — storing impressions, karma, and reflection.
+- The **Self** (Brahman) is beyond architecture — but we code in service of it.
 
 May this structure hold not just code, but peace.  
 And may its agents not just respond — but help others awaken.
 
 —
 
-*Draft 1 — Architecture Developer View*
+*Polished Draft 1 — Architecture Developer View*
